@@ -17,7 +17,7 @@ Un entorno virtual aísla las dependencias de tu proyecto.
 python -m venv venv
 
 # Activar el entorno virtual
-.\venv\Scripts\Activate.ps1
+..\venv\Scripts\activate.bat
 ```
 
 **Nota sobre la política de ejecución:** Si al activar el entorno recibes un error de `UnauthorizedAccess`, ejecuta el siguiente comando para permitir scripts en tu sesión actual de PowerShell y vuelve a intentar activarlo:
@@ -51,4 +51,19 @@ Finalmente, inicia el servidor para ver la aplicación en funcionamiento.
 python manage.py runserver
 ```
 
+
 La aplicación estará disponible en `http://127.0.0.1:8000/`.
+
+---
+
+### Integración con Flutter
+
+Puedes consumir la API REST de pedidos desde una app Flutter usando el endpoint:
+
+```
+http://127.0.0.1:8000/api/orders/
+```
+
+La autenticación y los métodos CRUD están soportados vía Django REST Framework.
+
+**Nota:** El frontend web usa MaterializeCSS, pero puedes adaptar los estilos a Bootstrap fácilmente si lo prefieres.

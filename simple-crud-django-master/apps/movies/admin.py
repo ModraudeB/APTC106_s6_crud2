@@ -1,9 +1,10 @@
 from django.contrib import admin
-from .models import Categories, Movies
+from .models import Categories, Order
 
 
 # Register your models here.
 
-@admin.register(Categories, Movies)
+
+@admin.register(Categories, Order)
 class BaseAdminRegister(admin.ModelAdmin):
     pass

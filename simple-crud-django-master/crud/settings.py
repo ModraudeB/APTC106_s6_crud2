@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'widget_tweaks',
+    'rest_framework',
     # registar nuestra aplicacion
     'apps.movies.apps.MoviesConfig'
 ]
@@ -70,10 +71,20 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'crud.wsgi.application'
+
+# Heroku: Whitenoise para archivos estáticos
+MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+
+# Heroku: Static files
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+
+import dj_database_url
 
 DATABASES = {
     'default': {
@@ -81,6 +92,9 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+# Heroku: Actualizar DB si hay DATABASE_URL
+DATABASES['default'].update(dj_database_url.config(conn_max_age=500))
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -116,14 +130,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/static/'
 
-# añadir otra dirección donde django buscara archivos estáticos
-STATICFILES_DIRS = (
-    os.path.abspath(
-        os.path.join(BASE_DIR, '../static')
-    ),
-)
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, '../media')

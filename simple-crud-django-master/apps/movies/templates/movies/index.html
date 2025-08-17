@@ -2,13 +2,13 @@
 {% block main-content %}
     <div class="row">
         <div class="col s12">
-            <a class="waves-effect waves-light btn right red darken-1" href="{% url 'movies:movies-create' %}"><i
-                    class="material-icons left">add</i>Agregar nuevo</a>
+        <a class="waves-effect waves-light btn right red darken-1" href="{% url 'movies:order-create' %}"><i
+            class="material-icons left">add</i>Agregar nuevo</a>
         </div>
     </div>
     <div class="row">
         <div class="col s12">
-            {% if not movies %}
+            {% if not orders %}
                 <div class="card-panel red">
                     <span class="white-text">No hay registros actualmente</span>
                 </div>
@@ -16,25 +16,27 @@
                 <table class="striped centered">
                     <thead>
                     <tr>
-                        <th width="20%">Nombre</th>
-                        <th>Descripcion</th>
-                        <th>Fecha de lanzamiento</th>
-                        <th width="20%">Opciones</th>
+                        <th>Cliente</th>
+                        <th>Items</th>
+                        <th>Dirección</th>
+                        <th>Estado</th>
+                        <th>Opciones</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for movie in movies %}
+                    {% for order in orders %}
                         <tr>
-                            <td width="20%">{{ movie.name }}</td>
-                            <td>{{ movie.description | truncatechars:120 }}</td>
-                            <td>{{ movie.release_date }}</td>
-                            <td width="20%">
+                            <td>{{ order.customer_name }}</td>
+                            <td>{{ order.items }}</td>
+                            <td>{{ order.address }}</td>
+                            <td>{{ order.status }}</td>
+                            <td>
                                 <a class="btn-floating btn-small waves-effect waves-light red"
-                                   href="{{ movie.get_edit_url }}"><i class="material-icons">edit</i></a>
+                                   href="{% url 'movies:order-edit' order.pk %}"><i class="material-icons">edit</i></a>
                                 <a class="btn-floating btn-small waves-effect waves-light blue"
-                                   href="{{ movie.get_delete_url }}"><i class="material-icons">delete</i></a>
+                                   href="{% url 'movies:order-delete' order.pk %}"><i class="material-icons">delete</i></a>
                                 <a class="btn-floating btn-small waves-effect waves-light green"
-                                   href="{{ movie.get_detail_url }}"><i class="material-icons">visibility</i></a>
+                                   href="{% url 'movies:order-detail' order.pk %}"><i class="material-icons">visibility</i></a>
                             </td>
                         </tr>
                     {% endfor %}
