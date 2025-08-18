@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,7 +25,7 @@ SECRET_KEY = 'fi#6n&(#p*(v9pvvxavz($%9s^0_+zct42f9rb(lr*akfwc88#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '10.0.2.2']  # Cambio aquí
 
 # Application definition
 
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'widget_tweaks',
     'rest_framework',
+    'rest_framework_simplejwt',
     # registar nuestra aplicacion
     'apps.movies.apps.MoviesConfig'
 ]
@@ -84,17 +86,22 @@ MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-import dj_database_url
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': dj_database_url.config(
+        default='sqlite:////{}'.format(os.path.join(BASE_DIR, 'db.sqlite3')),
+        conn_max_age=500
+    )
 }
 
-# Heroku: Actualizar DB si hay DATABASE_URL
-DATABASES['default'].update(dj_database_url.config(conn_max_age=500))
+# REST Framework Configuration
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
