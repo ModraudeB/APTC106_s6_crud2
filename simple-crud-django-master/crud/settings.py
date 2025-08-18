@@ -77,8 +77,8 @@ WSGI_APPLICATION = 'crud.wsgi.application'
 # Heroku: Whitenoise para archivos estáticos
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 
-# Heroku: Static files
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATIC_ROOT solo para producción/Heroku
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 # Database
